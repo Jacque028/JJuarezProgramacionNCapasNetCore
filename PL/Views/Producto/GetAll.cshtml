@@ -1,0 +1,138 @@
+﻿@model ML.Producto
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class=" container">
+    @* Titulo  *@
+    <h2>Bienvenido: A consultar la Tabla de productos</h2>
+    @* Parrafos  *@
+    <p>Tiene las opciones de: <b> Agregar, Editar y Eliminar </b> algun registro </p>
+    <p>Para agregar un producto presione el boton verde</p>
+    <p>Para editar un producto presione el boton amarillo</p>
+    <p>Para eliminar un producto presione el boton rojo</p>
+    <hr />
+
+    <div class=" row">
+        <div style="float:right">
+            @Html.ActionLink("+", "Form", "Producto", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+    </div>
+
+    @using (Html.BeginForm("GetAll", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class=" row">
+
+            @*B U S C A R       A B I E R T A M E N T E  *@
+
+             @*L I S T A   DE     P r o v e e d o r *@
+
+             <div class="col-md-5">
+                  @Html.DropDownListFor(model => model.Proveedor.IdProveedor, new SelectList(Model.Proveedor.Proveedores, "IdProveedor", "Nombre"), "Selecciona una opción", new { @class = "form-control" })
+             </div>
+            
+            @*N O M B R E *@
+            <div class="col-md-5">
+                 @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Nombre" })
+            </div>
+            
+            <div class="col-md-2">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+            </div>
+           
+        </div>
+    }
+    <br/>
+    
+    <div class="row">
+
+        <table class="table table-responsive" id="tblProducto">
+            <thead>
+                <tr>
+                    <th>Editar</th>
+                    <th style="display:none">IdProducto</th>
+                    <th>Nombre</th>
+                    <th>PrecioUnitario</th>
+                    <th>Stock</th>
+                    <th style="display:none">IdProveedor</th>
+                    <th>NombreProveedor</th>
+                    <th style="display:none">IdDepartamento</th>
+                    <th>NombreDepartamento</th>
+                    <th>Descripcion</th>
+                    <th>Imagen</th>
+                    <th>Eliminar</th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (ML.Producto producto in Model.Productos)
+                {
+                    <tr>
+                        <td style="text-align: center; vertical-align: middle;"><a class="btn btn-warning" href="@Url.Action("Form", "Producto", new { IdProducto = producto.IdProducto})"><i class="bi bi-pencil-square" style="color: ivory"></i></a></td>
+                        @* hidden = Oculta *@
+                        <td style="display:none">@producto.IdProducto</td>
+                        <td>@producto.Nombre</td>
+                        <td>@producto.PrecioUnitario</td>
+                        <td>@producto.Stock</td>
+                        <td style="display:none">@producto.Proveedor.IdProveedor</td>
+                        <td>@producto.Proveedor.Nombre</td>
+                        <td style="display:none">@producto.Departamento.IdDepartamento</td>
+                        <td>@producto.Departamento.Nombre</td>
+                        <td>@producto.Descripcion</td> 
+
+                        @*I M A G E N *@ 
+
+                        <td>@if (producto.Imagen != null)
+                        { 
+                            <img src="data:image/*;base64,@producto.Imagen" style="height:110px; width:150px;" />
+                            
+                        }
+                         else
+                        { 
+                            <img src="~/Imagen/sinproducto.png" style="height:110px; width:150px;" />
+
+                        } 
+                        </td> 
+
+
+                        <td style="text-align: center; vertical-align: middle;"><a class="btn btn-danger" href="@Url.Action("Delete", "Producto", new { IdProducto = producto.IdProducto })" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"><i class="bi bi-eraser-fill"></i></a></td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts
+{
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.material.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#tblProducto').DataTable({
+            searching: false,
+            "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
+            autoWidth: false,
+            columnDefs: [
+                {
+                    targets: ['_all'],
+                    className: 'mdc-data-table__cell',
+                },
+            ],
+            language: {
+                url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+            },
+         });
+    });
+</script>
+
+}

@@ -1,0 +1,102 @@
+﻿@model ML.Producto
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>GetAll</h1>
+
+@*@if (Context.Session.GetString("Producto") == null)
+{
+    <h2>El Carrito no tiene productos</h2>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Regresa al catalogo para agregar productos al carrito</h5>
+            <hr />
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div style="float:right">
+                    @Html.ActionLink("Volver al catálogo", "GetAll", "VentaProducto", htmlAttributes: new { @class = "btn btn-success" })
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else{
+    <h2 class="text-center">Resumen de compra</h2>
+    <hr/>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div style="float:right">
+                @Html.ActionLink("Volver al catálogo", "GetAll", "VentaProducto", htmlAttributes: new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    </div>
+    <br />*@
+
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-bordered table-responsive">
+                <thead style="background-color: #aec1ff;font-family: arial;font-size: 1.2rem;">
+                    <tr>
+                        <td style="display :none;">id</td>
+                        <td></td>
+                        <td style="text-align: center;">Nombre</td>
+                        <td style ="text-align: center;">Precio</td>
+                        <td style="text-align: center;">Stock</td>}
+                        <td style="text-align: center;">Descripción</td>
+                        <td style="text-align: center; vertical-align: middle;">Agregar</td>
+                        <td style="text-align: center; vertical-align: middle;">Cantidad</td>
+                        <td style="text-align: center; vertical-align: middle;">Quitar</td>
+                        <td style="text-align: center; vertical-align: middle;">Eliminar</td>
+                    </tr>
+                </thead>
+                <tbody>
+        </div>
+
+                    <div class="row">
+
+                        @foreach(ML.Producto producto in Model.Productos)
+                        {
+                            <div class="col mt-3 pt-3">
+                                <div class="card text-Bold text @*text-white*@  bg-info border-dark border-top-0 mb-3 border-4" style="width: 15rem;">
+                                    @if (producto.Imagen != null)
+                                        { 
+                                            <div class="text-center"> 
+                                            <img src="data:image/*;base64,@producto.Imagen" class="img-thumbnail"  style="height:100%; width:50%;" />
+                                            </div>
+                                        }
+                                         else
+                                        { 
+                                            <div class="text-center"> 
+                                            <img src="~/Imagen/sinproducto.png" style="height:100%; width:50%;" /> 
+                                            </div>
+                                        } 
+                                        <div class="card-body"> 
+                                            <h5 class="card-title card-header text-center bg-light" id="pNombre">@producto.Nombre</h5>
+                                            <p class="card-text" id="pPrecioUnitario">Precio Unitario:@producto.PrecioUnitario</p>
+                                            <p class="card-text" id="pStock">Stock:@producto.Stock</p>
+                                            @*<p class="card-text" id="pIdProveedor"></p>
+                                            <p class="card-text" id="pDepartamento"></p>*@
+                                            <p class="card-text" id="pDescripcion">Descripcion:@producto.Descripcion</p>
+
+
+                                            @*@Html.ActionLink("Añadir", "CardPost", "VentaProducto", htmlAttributes: new { @class = "btn btn-secondary" })<i class="bi bi-cart3" style="color: darkorange"></i>*@
+
+                                            @Html.ActionLink("Añadir", "CardPost", "VentaProducto", new { IdProducto = producto.IdProducto }, htmlAttributes: new { @class = "btn btn-secondary" })<i class="bi bi-cart3" style="color: darkorange"></i>
+
+                                            @*<td style="text-align: center; vertical-align: middle;"><a class="btn btn-secondary" href="@Url.Action("Añadir", "CardPost", new { IdProducto = producto.IdProducto })" onclick=onclick="CrearObjeto();"><i class="bi bi-cart3" style="color: darkorange"></i>*@
+                            
+                                             @*<button class="btn btn-secondary" onclick="CrearObjeto()" >Añadir <i class="bi bi-cart3" style="color: darkorange"></i></button>       *@
+                                        </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+</div>
+
+                    
+}

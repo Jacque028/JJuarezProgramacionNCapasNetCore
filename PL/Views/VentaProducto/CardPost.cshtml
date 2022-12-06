@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "CardPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>CardPost</h1>
+
+@foreach (ML.Producto producto in Model.Productos)
+{
+    <tr>
+        <td style="display :none;">@producto.IdProducto </td>
+        @if (producto.Imagen != null)
+        {
+            <td style="text-align: center; vertical-align: middle;"><img src="data:image/*;base64,@producto.Imagen" style=" height:100px; width:100px; "></td>
+        }
+        else
+        {
+            <td style="text-align: center; vertical-align: middle;"><img src="~/Imagen/sinproducto.png" style=" height:100px; width:100px;"></td>
+        }
+
+        <td style="text-align: center; vertical-align: middle;">@producto.Nombre (@producto.Descripcion)</td>
+        <td style="text-align: center; vertical-align: middle;">$@producto.PrecioUnitario</td>
+        <td style="text-align: center; vertical-align: middle;">@producto.Stock</td>
+        <td style="text-align: center; vertical-align: middle;"><a class="btn btn-success " href="@Url.Action("CardPost", "Producto", new { IdProducto = producto.IdProducto})"><i class="bi bi-plus-circle-fill" style="color: mintcream"></i></a></td>
+        <td style="text-align: center; vertical-align: middle;">@producto.Cantidad</td>
+        <td style="text-align: center; vertical-align: middle;"><a class="btn btn-success " href="@Url.Action("Delete", "Producto", new { IdProducto = producto.IdProducto})"><i class="bi bi-dash" style="color: mintcream"></i></a></td>
+        <td style="text-align: center; vertical-align: middle;"><a class="btn btn-danger" href="@Url.Action("Delete", "Producto", new { IdProducto = producto.IdProducto})" onclick="return confirm('Estas seguro que deseas eliminar este producto?');"><i class="bi bi-x-square-fill" style="color: mintcream"></i></a></td>
+   </tr>
+
+   <tr>
+                        
+        <td></td>
+        <td>Total:</td>
+        <td>$@producto.Total</td>
+   </tr>
+}
+
+
+                            
+                           
+                                
+                            
+                            
+
+                            
+                            
+
+                        
+                        
+                    
+               
+                    
